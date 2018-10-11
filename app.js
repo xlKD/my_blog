@@ -24,6 +24,8 @@ app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// https://expressjs.com/en/4x/api.html#app.use
+// routers
 app.use('/', index);
 app.use('/posts/', posts);
 
