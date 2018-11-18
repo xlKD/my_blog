@@ -3,6 +3,7 @@ import {Route} from 'react-router-dom';
 import Header from './Header/Header';
 import Posts from './Posts/Posts';
 import Post from './Post/Post';
+import Footer from './Footer/Footer';
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
@@ -40,6 +41,7 @@ class App extends Component {
         <Header />
         <Route exact path='/' component={Posts}/>
         <Route exact path='/post/:postId' component={Post}/>
+        <Footer />
       </div>
     );
   }

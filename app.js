@@ -8,11 +8,21 @@ var lessMiddleware = require('less-middleware');
 
 var index = require('./routes/index');
 var posts = require('./routes/posts');
+var tags = require('./routes/tags');
+var categories = require('./routes/categories');
+
+const expressHandlebars  = require('express-handlebars');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.engine('.hbs', expressHandlebars({
+  extname: '.hbs',
+  helpers: require('./handlebarHelpers'),
+  defaultLayout: 'masterLayout',
+  layoutsDir: 'views/'
+}));
 app.set('view engine', 'hbs');
 // Set layout root file as views/masterLayout.hbs
 app.set('view options', { layout: 'masterLayout' });
@@ -30,6 +40,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routers
 app.use('/', index);
 app.use('/posts/', posts);
+app.use('/api/tags/', tags);
+app.use('/api/categories/', categories);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

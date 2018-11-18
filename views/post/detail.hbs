@@ -5,12 +5,12 @@
       <div class="col-md-12 col-lg-8 main-content">
         <h1 class="mb-4">{{post.title}}</h1>
         <div class="post-meta">
-                    <span class="category">Food</span>
+                    <span class="category">{{post.category}}</span>
                     <span class="mr-2">March 15, 2018 </span> &bullet;
                     <span class="ml-2"><span class="fa fa-comments"></span> 3</span>
                   </div>
         <div class="post-content-body">
-            <p style="white-space:pre-wrap">{{post.content}}</p>
+            {{{post.content}}}
             <div class="row mb-5">
               <div class="col-md-12 mb-4 element-animate">
                 <img src="/images/img_7.jpg" alt="Image placeholder" class="img-fluid">

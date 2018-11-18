@@ -1,6 +1,61 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const SidebarBox = styled.div`
+    margin-bottom: 4em;
+    font-size: 15px;
+    width: 100%;
+    float: left;
+    background: #fff;
+`;
+
+const PostEntrySidebar = styled.div`
+  padding-top: 30px;
+
+  ul {
+	padding: 0;
+	margin: 0;
+  
+	li {
+	  list-style: none;
+      padding: 0 0 20px 0;
+      margin: 0 0 20px 0;
+
+      a {
+		display: table;
+
+        .text {
+		  display: table-cell;
+    	  vertical-align: middle;
+
+		  h4 {
+			font-size: 18px;
+		  }
+		}
+      }
+	}
+  }
+
+  .post-meta {
+	font-size: 14px;
+    color: #b3b3b3;
+  }
+`;
+
+const Category = styled.div`
+  display: inline-block;
+  background: #007bff;
+  padding: 2px 8px;
+  line-height: 1.5;
+  font-size: 12px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  color: #fff !important;
+  margin-right: 10px;
+`;
+
 
 class Posts extends Component {
   constructor(props) {
@@ -20,26 +75,36 @@ class Posts extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          {this.state.posts === null && <p>Loading posts...</p>}
-          {
-            this.state.posts && this.state.posts.map(post => (
-              <div key={post._id} className="col-sm-12 col-md-4 col-lg-3">
-                <Link to={`/post/${post._id}`}>
-                  <div className="card text-white bg-success mb-3">
-                    <div className="card-header">Answers: {post.answers}</div>
-                    <div className="card-body">
-                      <h4 className="card-title">{post.title}</h4>
-                      <p className="card-text">{post.description}</p>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            ))
-          }
+      <section className="site-section py-sm">
+        <div className="container">
+          <div className="row blog-entries">
+            <div className="col-12 offset-md-2 offset-lg-3">
+              <SidebarBox>
+				<PostEntrySidebar>
+                <ul>
+                {this.state.posts === null && <p>Loading posts...</p>}
+                {
+                  this.state.posts && this.state.posts.map(post => (
+                    <li key={post._id}>
+                      <Link to={`/post/${post._id}`}>
+                        <div className="text">
+                          <h4>{post.title}</h4>
+                          <div className="post-meta">
+							<Category>{post.category}</Category>
+                            <span class="mr-2">{post.created_at}</span>
+                          </div>
+                        </div>
+                      </Link>
+                    </li>
+                  ))
+                }
+                </ul>
+				</PostEntrySidebar>
+              </SidebarBox>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     )
   }
 }

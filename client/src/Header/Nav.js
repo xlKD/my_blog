@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const NavLink = styled.a`
   padding: 1.7rem 1rem;
@@ -104,8 +105,16 @@ class Nav extends Component {
 
     this.state = {
       show: false,
-      showMobileNav: false
+      showMobileNav: false,
+      categories: null
     };
+  }
+
+  async componentDidMount() {
+    const categories = (await axios.get(`http://localhost:3000/api/categories`)).data;
+    this.setState({
+      categories,
+    });
   }
 
   onHover = () => {
@@ -146,14 +155,14 @@ class Nav extends Component {
                     <NavLink className="nav-link active" href="/">Home</NavLink>
                   </li>
                   <li className="nav-item dropdown" onMouseOver={this.onHover} onMouseLeave={this.onLeave}>
-                    <NavLink className="nav-link dropdown-toggle" href="category.html" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Travel</NavLink>
+                    <NavLink className="nav-link dropdown-toggle" href="category.html" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</NavLink>
                     {this.state.show === true &&
                       <DropdownMenu className="dropdown-menu show" aria-labelledby="dropdown04">
-                      	<a className="dropdown-item" href="category.html">Asia</a>
-                      	<a className="dropdown-item" href="category.html">Europe</a>
-                      	<a className="dropdown-item" href="category.html">Dubai</a>
-                      	<a className="dropdown-item" href="category.html">Africa</a>
-                      	<a className="dropdown-item" href="category.html">South America</a>
+                        {
+                          this.state.categories !== null && this.state.categories.map(category => (
+                      	    <a className="dropdown-item" href="#">{category.name}</a>
+                          ))
+                        }
                       </DropdownMenu>
                     }
                   </li>

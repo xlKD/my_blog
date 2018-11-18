@@ -176,6 +176,14 @@
 	};
 	contentWayPoint();
 
+    $(document).ready(function() {
+      $('#summernote').summernote({
+        height: 300,
+      });
 
+      $('.note-editor .note-editable').css("line-height", 1);
+
+      $('.select2').select2();
+    });
 
 })(jQuery);
