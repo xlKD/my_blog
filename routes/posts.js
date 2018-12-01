@@ -95,4 +95,17 @@ router.post('/add', function(req, res, next) {
     }))
 });
 
+router.post('/edit', function(req, res, next) {
+    // Exclude summernote's files input
+    delete req.body['files'];
+
+    const postId = req.body['_id'];
+    delete req.body['_id'];
+    conn.then(client => client.db('blog').collection('blogs').replaceOne({_id: ObjectID(postId)}, req.body, (err, result) => {
+        if (err) return console.log(err)
+
+        res.redirect('/posts/' + postId)
+    }))
+});
+
 module.exports = router;
