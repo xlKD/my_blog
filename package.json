@@ -17,7 +17,7 @@
     "install": "^0.12.2",
     "less-middleware": "^3.0.1",
     "mongodb": "^3.1.6",
-    "morgan": "~1.9.0",
+    "morgan": "^1.9.1",
     "nodemon": "^1.18.4",
     "serve-favicon": "~2.4.5"
   }

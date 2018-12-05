@@ -21,7 +21,9 @@ router.get('/api', cors(), function(req, res, next) {
 
 router.get('/api/:postId', cors(), function(req, res, next) {
     const postId = req.params.postId.toString()
+    console.log(postId);
 	conn.then(client => client.db('blog').collection('posts').find({_id: new ObjectID(postId)}).limit(1).next(function(err, post) {
+        console.log(post);
         if (err) return console.log(err)
 
         res.send(post)
