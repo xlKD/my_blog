@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var lessMiddleware = require('less-middleware');
 
 var index = require('./routes/index');
+var postAdmin = require('./routes/postAdmin');
 var posts = require('./routes/posts');
 var tags = require('./routes/tags');
 var categories = require('./routes/categories');
@@ -39,7 +40,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // https://expressjs.com/en/4x/api.html#app.use
 // routers
 app.use('/', index);
-app.use('/posts/', posts);
+app.use('/posts/', postAdmin);
+app.use('/api/posts/', posts);
 app.use('/api/tags/', tags);
 app.use('/api/categories/', categories);
 
