@@ -11,11 +11,20 @@ const conn = MongoClient.connect(
 )
 
 router.get('/', cors(), function(req, res, next) {
-	conn.then(client => client.db('blog').collection('posts').find().toArray(function(err, results) {
+    let filters = {};
+    if ( req.query.category !== undefined ) {
+        filters.category = req.query.category;
+    }
+    if ( req.query.tag !== undefined ) {
+        // TODO: Plural tags should be fixed somehow
+        filters.tags = req.query.tag;
+    }
+
+    conn.then(client => client.db('blog').collection('posts').find(filters).toArray(function(err, results) {
         if (err) return console.log(err)
 
         res.send(results)
-	}))
+    }))
 })
 
 router.get('/:postId', cors(), function(req, res, next) {
