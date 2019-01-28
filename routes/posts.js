@@ -20,7 +20,7 @@ router.get('/', cors(), function(req, res, next) {
         filters.tags = req.query.tag;
     }
 
-    conn.then(client => client.db('blog').collection('posts').find(filters).toArray(function(err, results) {
+    conn.then(client => client.db('blog').collection('posts').find(filters).project({_id:1,title:1,category:1,created_at:1}).sort({created_at: -1}).toArray(function(err, results) {
         if (err) return console.log(err)
 
         res.send(results)
