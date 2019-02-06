@@ -7,7 +7,7 @@ module.exports = {
   },
 
   if_inside_array: function(value, array, options){
-    if (array.indexOf(value) >= 0) {
+    if (array && array.indexOf(value) >= 0) {
       return options.fn(this);
     }
     return options.inverse(this);
