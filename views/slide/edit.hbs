@@ -1,0 +1,36 @@
+<h1>Add slide</h1>
+<form action="/slides/edit" method="POST">
+    <input type="hidden" name="_id" value="{{slide._id}}">
+    <div class="row">
+        <div class="col-6 form-group">
+            <label>
+                Link to post
+            </label>
+            <select class="form-control select2" name="postId">
+                {{#each posts}}
+                    <option value="{{_id}}"
+                        {{#if_str_eq _id ../slide.postId}}selected{{/if_str_eq}}
+                    >{{title}}</option>
+                {{/each}}
+            </select>
+        </div>
+
+        <div class="col-9 form-group">
+            <label>
+                Images
+            </label>
+            <div id="origin-img-input" class="d-none">
+                <input class="form-control" name="imgUrls" placeholder="URL">
+                <textarea class="form-control" name="imgCaptions" placeholder="Caption" rows="2"></textarea><br>
+            </div>
+            <div id="img-inputs">
+                {{#each slide.imgUrls}}
+                    <input class="form-control" name="imgUrls" placeholder="URL" value="{{this}}">
+                    <textarea class="form-control" name="imgCaptions" placeholder="Caption" rows="2">{{lookup ../slide.imgCaptions @index}}</textarea><br>
+                {{/each}}
+            </div>
+            <button class="btn btn-light" id="btn-clone-img-input" type="button">+ Add image</button>
+        </div>
+    </div>
+    <input class="btn btn-success" type="submit" value="Post"/>
+</form>

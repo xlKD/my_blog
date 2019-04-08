@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "./bin/www"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -13,11 +13,12 @@
     "debug": "~2.6.9",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
-    "hbs": "~4.0.1",
+    "hbs": "^4.0.3",
     "install": "^0.12.2",
     "less-middleware": "^3.0.1",
     "mongodb": "^3.1.6",
     "morgan": "^1.9.1",
+    "nodemon": "^1.18.10",
     "serve-favicon": "~2.4.5"
   }
 }

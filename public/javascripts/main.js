@@ -186,4 +186,8 @@
       $('.select2').select2();
     });
 
+    $('#btn-clone-img-input').click(function() {
+      $('#img-inputs').append($('#origin-img-input').html());
+    });
+
 })(jQuery);

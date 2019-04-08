@@ -8,6 +8,7 @@ var lessMiddleware = require('less-middleware');
 
 var index = require('./routes/index');
 var postAdmin = require('./routes/postAdmin');
+var slideAdmin = require('./routes/slideAdmin');
 var posts = require('./routes/posts');
 var tags = require('./routes/tags');
 var categories = require('./routes/categories');
@@ -41,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routers
 app.use('/', index);
 app.use('/posts/', postAdmin);
+app.use('/slides/', slideAdmin);
 app.use('/api/posts/', posts);
 app.use('/api/tags/', tags);
 app.use('/api/categories/', categories);
