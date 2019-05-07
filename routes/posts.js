@@ -19,6 +19,12 @@ router.get('/', cors(), function(req, res, next) {
         // TODO: Plural tags should be fixed somehow
         filters.tags = req.query.tag;
     }
+    if ( req.query.keyword !== undefined ) {
+        filters.$or = [
+            {title: new RegExp(req.query.keyword)},
+            {content: new RegExp(req.query.keyword)}
+        ]
+    }
 
     conn.then(client => client.db('blog').collection('posts').find(filters).project({_id:1,title:1,category:1,created_at:1}).sort({created_at: -1}).toArray(function(err, results) {
         if (err) return console.log(err)
