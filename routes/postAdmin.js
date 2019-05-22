@@ -20,16 +20,17 @@ router.get('/', function(req, res, next) {
 
 router.get('/add', function(req, res, next) {
 	conn.then(client => {
-        client.db('blog').collection('categories').find().toArray(function(err, categories) {
-            if (err) return console.log(err)
+        const categoryFind = client.db('blog').collection('categories').find().toArray();
+        const tagFind = client.db('blog').collection('tags').find().toArray();
 
-            client.db('blog').collection('tags').find().toArray(function(err, tags) {
-                res.render('post/add', {
-                    tags: tags,
-                    categories: categories
-                })
+        Promise.all([categoryFind, tagFind]).then(values => {
+            res.render('post/add', {
+                categories: values[0],
+                tags: values[1],
             })
-	    })
+        }).catch((error) => {
+            console.log(error);
+        });
     })
 });
 
@@ -52,21 +53,19 @@ router.get('/:post_id/edit', function(req, res, next) {
     const post_id = req.params.post_id.toString()
 	conn.then(
         client => {
-            client.db('blog').collection('posts').find({_id: new ObjectID(post_id)}).limit(1).next(function(err, post) {
-                if (err) return console.log(err)
+            const postFind = client.db('blog').collection('posts').find({_id: new ObjectID(post_id)}).limit(1).next();
+            const categoryFind = client.db('blog').collection('categories').find().toArray();
+            const tagFind = client.db('blog').collection('tags').find().toArray();
 
-                client.db('blog').collection('categories').find().toArray(function(err, categories) {
-                if (err) return console.log(err)
-
-                    client.db('blog').collection('tags').find().toArray(function(err, tags) {
-                        res.render('post/edit', {
-                            post: post,
-                            categories: categories,
-                            tags: tags
-                        })
-                    })
+            Promise.all([postFind, categoryFind, tagFind]).then(values => {
+                res.render('post/edit', {
+                    post: values[0],
+                    categories: values[1],
+                    tags: values[2],
                 })
-            })
+            }).catch((error) => {
+                console.log(error);
+            });
         }
     )
 });
