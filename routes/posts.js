@@ -25,12 +25,20 @@ router.get('/', cors(), function(req, res, next) {
             {content: new RegExp(req.query.keyword)}
         ]
     }
+    let offset = 0;
+    if ( req.query.offset !== undefined ) {
+        offset = parseInt(req.query.offset);
+    }
 
     conn.then(client => client.db('blog').collection('posts').find(filters).project({_id:1,title:1,category:1,created_at:1}).sort({created_at: -1})
-        .toArray(function(err, results) {
+        .skip(offset).limit(5).toArray(function(err, results) {
         if (err) return console.log(err)
 
-        res.send(results)
+        res.send({
+            posts: results,
+            offset: offset + results.length,
+            isOver: results.length !== 5,
+        })
     }))
 })
 
