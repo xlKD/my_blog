@@ -13,6 +13,7 @@ var posts = require('./routes/posts');
 var slides = require('./routes/slides');
 var tags = require('./routes/tags');
 var categories = require('./routes/categories');
+var webHooks = require('./routes/webHooks');
 
 const expressHandlebars  = require('express-handlebars');
 
@@ -48,6 +49,7 @@ app.use('/api/posts/', posts);
 app.use('/api/slides/', slides);
 app.use('/api/tags/', tags);
 app.use('/api/categories/', categories);
+app.use('/web_hooks/', webHooks);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

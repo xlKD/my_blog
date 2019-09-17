@@ -1,15 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const MongoClient = require('mongodb').MongoClient
 const ObjectID = require('mongodb').ObjectID;
 const cors = require('cors');
 const joi = require('@hapi/joi');
-const dbConfig = require('../dbConfig');
-
-const conn = MongoClient.connect(
-  'mongodb://' + dbConfig.username + ':' + dbConfig.password + '@' + dbConfig.host + '/' + dbConfig.database,
-  { useNewUrlParser: true }
-)
+const dbConnection = require('../db_conn/dbConnection');
 
 router.get('/', cors(), function(req, res, next) {
     const schema = joi.object().keys({
@@ -45,7 +39,7 @@ router.get('/', cors(), function(req, res, next) {
             offset = parseInt(req.query.offset);
         }
 
-        conn.then(client => client.db('blog').collection('posts').find(filters).project({_id:1,title:1,category:1,created_at:1}).sort({created_at: -1})
+        dbConnection.then(client => client.db('blog').collection('posts').find(filters).project({_id:1,title:1,category:1,created_at:1}).sort({created_at: -1})
             .skip(offset).limit(5).toArray(function(err, results) {
             if (err) return console.log(err)
 
@@ -66,7 +60,7 @@ router.get('/:postId', cors(), function(req, res, next) {
     const validation = schema.validate({ postId: postId})
 
     if ( validation.error === null ) {
-        conn.then(client => client.db('blog').collection('posts').find({_id: new ObjectID(postId)}).limit(1).next(function(err, post) {
+        dbConnection.then(client => client.db('blog').collection('posts').find({_id: new ObjectID(postId)}).limit(1).next(function(err, post) {
             if (err) return console.log(err)
 
             res.send(post)
