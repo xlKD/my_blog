@@ -20,18 +20,22 @@ router.post('/pushed_master', function(req, res, next) {
     isSuccess ? res.sendStatus(200) : res.sendStatus(500);
 });
 
+
 router.post('/pushed_master_client', function(req, res, next) {
+    let isSuccess = false;
     const secret = process.env.WEBHOOK_SECRET;
     const sig = "sha1=" + crypto.createHmac('sha1', secret).update(JSON.stringify(req.body)).digest('hex');
 
     if ( req.headers['x-hub-signature'] === sig ) {
-        childProcess.exec('../pull_and_restart_client.sh', function(err, stdout, stderr) {
+        isSuccess = childProcess.exec('cd /home/hung/Code && ./pull_and_restart_client.sh', function(err, stdout, stderr) {
             if ( err ) {
-                res.send({error: stderr})
+                return false;
             }
-            res.send({success: stdout})
+            return true;
         });
     }
+
+    isSuccess ? res.sendStatus(200) : res.sendStatus(500);
 });
 
 module.exports = router;
