@@ -3,6 +3,8 @@ const router = express.Router();
 const ObjectID = require('mongodb').ObjectID;
 const cors = require('cors');
 const dbConnection = require('../db_conn/dbConnection');
+const serverInfo = require('../serverInfo');
+const http = require('http');
 
 router.get('/', function(req, res, next) {
 	dbConnection.then(client => client.db('blog').collection('posts').find().toArray(function(err, results) {
@@ -84,6 +86,21 @@ router.post('/edit', function(req, res, next) {
     dbConnection.then(client => client.db('blog').collection('posts').replaceOne({_id: ObjectID(postId)}, req.body, (err, result) => {
         if (err) return console.log(err)
 
+        const req = http.request({
+            hostname: serverInfo.ip,
+            path: '/api/posts/' + postId,
+            port: serverInfo.port,
+            method: 'PURGE',
+            headers: {
+                'Host': serverInfo.host,
+            }
+        }, res => {
+            console.log(`statusCode: ${res.statusCode}`);
+        });
+        req.on('error', error => {
+          console.error(error)
+        });
+        req.end();
         res.redirect('/posts/' + postId)
     }))
 });
