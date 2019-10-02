@@ -10,7 +10,7 @@ router.post('/pushed_master', function(req, res, next) {
     const sig = "sha1=" + crypto.createHmac('sha1', secret).update(JSON.stringify(req.body)).digest('hex');
 
     if ( req.headers['x-hub-signature'] === sig ) {
-        isSuccess = childProcess.exec('cd /home/hung/Code && ./pull_and_restart_server.sh', function(err, stdout, stderr) {
+        isSuccess = childProcess.exec('cd /home/ec2-user/Code && ./pull_and_restart_server.sh', function(err, stdout, stderr) {
             if ( err ) {
                 return false;
             }
@@ -27,7 +27,7 @@ router.post('/pushed_master_client', cors(), function(req, res, next) {
     const sig = "sha1=" + crypto.createHmac('sha1', secret).update(JSON.stringify(req.body)).digest('hex');
 
     if ( req.headers['x-hub-signature'] === sig ) {
-        isSuccess = childProcess.exec('cd /home/hung/Code && ./pull_and_restart_client.sh', function(err, stdout, stderr) {
+        isSuccess = childProcess.exec('cd /home/ec2-user/Code && ./pull_and_restart_client.sh', function(err, stdout, stderr) {
             if ( err ) {
                 return false;
             }
