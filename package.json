@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "dependencies": {
     "@hapi/joi": "^15.1.1",
@@ -20,6 +22,8 @@
     "mongodb": "^3.3.2",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.2",
-    "serve-favicon": "~2.4.5"
-  }
+    "serve-favicon": "~2.4.5",
+    "@snyk/protect": "latest"
+  },
+  "snyk": true
 }
